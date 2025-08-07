@@ -30,17 +30,8 @@ namespace Win2DApp
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        private readonly DispatcherTimer dispacherTimer;
-        DateTimeOffset startTime;
-        DateTimeOffset lastTime;
-        DateTimeOffset stopTime;
-        int timesTicked = 1;
-        int timesToTick = 10;
-
-        double totalMilli = 0.0;
         private readonly InputManager _inputManager;
 
-        List<MVector2> vertices = new List<MVector2>();
         bool isMousePressed = false;
 
         Triangle trig = new();
@@ -69,26 +60,15 @@ namespace Win2DApp
         {
             await Task.CompletedTask;
         }
-        float degree = 0f;
         private void AnimatedCanvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
-            degree += 0.01f;
-
-            foreach (var item in vertices.ToArray())
-            {
-                //item.Rotate(degree);
-            }
+            
         }
 
         private void AnimatedCanvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
             var d = args.DrawingSession;
 
-            for (int i = 0; i < vertices.Count; i += 2)
-            {
-                if (vertices.Count == 0) break;
-                //d.DrawLine(vertices[i].x, vertices[i].y, vertices[i + 1].x, vertices[i + 1].y, Colors.White);
-            }
             MVector2 pos = new (200, 150);
 
             MVector3 v = new(3, 5, 6);
@@ -107,8 +87,7 @@ namespace Win2DApp
             isMousePressed = true;
             var pt = e.GetCurrentPoint(AnimatedCanvas).Position;
             MVector2 v = new MVector2(pt.X, pt.Y);
-            vertices.Add(v); //current Position
-            vertices.Add(v); //position that is being updated till release
+
             trig.AddVertex(v);
         }
 
@@ -118,7 +97,6 @@ namespace Win2DApp
             {
                 var pt = e.GetCurrentPoint(AnimatedCanvas).Position;
                 MVector2 v = new MVector2(pt.X, pt.Y);
-                vertices[vertices.Count - 1] = v;
             }
         }
 
@@ -127,7 +105,6 @@ namespace Win2DApp
             isMousePressed = false;
             var pt = e.GetCurrentPoint(AnimatedCanvas).Position;
             MVector2 v = new MVector2(pt.X, pt.Y);
-            vertices[vertices.Count - 1] = v;
         }
         
         void SubscribeInputHandler()
