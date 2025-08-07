@@ -87,8 +87,11 @@ namespace Win2DApp.MyMath
         }
         public void NormalizeThisVector() 
         {
-            x /= Length();
-            y /= Length();
+            float len = Length();
+            if (len == 0) x = y = 0;
+            else if (len == 1) return; // already normalized
+            else if (len < 0.00001f) { x = 0; y = 0; return; } // too small, set to zero
+            else{x /= len;y /= len;}
         }
         
         public static bool operator ==(MVector2 v1, MVector2 v2)
@@ -105,5 +108,7 @@ namespace Win2DApp.MyMath
             => new MVector2(v.x * n, v.y * n);
         public static MVector2 operator *(float n, MVector2 v)
             => new MVector2(v.x * n, v.y * n);
+        public static MVector2 operator +(MVector2 v, MVector2 w)
+            => new MVector2(v.x + w.x, v.y + w.y);
     }
 }

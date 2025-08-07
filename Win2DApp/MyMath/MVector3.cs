@@ -30,6 +30,9 @@ namespace Win2DApp.MyMath
             z += v.z;
         }
 
+        public float Length()
+            => (float)Math.Sqrt(x * x + y * y + z * z);
+
         public static MVector3 operator *(MVector3 v, float n)
             => new (v.x * n, v.y * n, v.z * n);
         public static MVector3 operator *(float n, MVector3 v)
@@ -48,6 +51,13 @@ namespace Win2DApp.MyMath
             => new(v.x / n, v.y / n, v.z / n);
         public static MVector3 operator /(float n, MVector3 v)
             => new(v.x / n, v.y / n, v.z / n);
+
+        public static MVector3 Normalize(MVector3 v)
+        {
+            float length = v.Length();
+            if (length == 0) return new MVector3(0, 0, 0);
+            return new MVector3(v.x / length, v.y / length, v.z / length);
+        }
 
         public static float Dot(MVector3 v, MVector3 w)
             => (v.x * w.x + v.y * w.y + v.z * w.z);

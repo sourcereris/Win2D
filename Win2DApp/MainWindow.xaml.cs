@@ -78,8 +78,19 @@ namespace Win2DApp
 
             var f = MVector3.Dot(c, w);
 
-            d.DrawText($"{f}", pos, Colors.Khaki);
             trig.DrawTriangle(args);
+
+            MVector2 vec1 = new MVector2(50, -80);
+            MVector2 vec2 = new MVector2(100, 50);
+
+            MVector2 offset = new MVector2(100, 100);
+            d.FillCircle(offset, 2, Colors.Red);
+
+            d.DrawLine(offset, offset + vec1, Colors.Green);
+            d.DrawLine(offset, offset + vec2, Colors.Cyan);
+
+            MVector2 vec3 = MVector2.Projection(vec1, vec2);
+            d.DrawLine(offset, offset + vec3, Colors.Yellow);
         }
 
         private void AnimatedCanvas_PointerPressed(object sender, PointerRoutedEventArgs e)
