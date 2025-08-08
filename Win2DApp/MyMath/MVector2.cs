@@ -110,5 +110,7 @@ namespace Win2DApp.MyMath
             => new MVector2(v.x * n, v.y * n);
         public static MVector2 operator +(MVector2 v, MVector2 w)
             => new MVector2(v.x + w.x, v.y + w.y);
+        public static MVector2 operator -(MVector2 v, MVector2 w)
+            => new MVector2(v.x - w.x, v.y - w.y);
     }
 }
