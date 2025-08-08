@@ -52,8 +52,6 @@ namespace Win2DApp
             _canvas.PointerMoved += (s, e) => PointerMoved?.Invoke(_canvas, e);
             _canvas.PointerReleased += (s, e) => PointerReleased?.Invoke(_canvas, e);
 
-
         }
-
     }
 }

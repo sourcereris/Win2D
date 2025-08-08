@@ -10,9 +10,11 @@ namespace Win2DApp.MyMath
 {
     internal class MVector3
     {
-        public float x { get; private set; }
-        public float y { get; private set; }
-        public float z { get; private set; }
+        public static MVector3 Zero => new(0, 0, 0);
+        public float x { get; set; }
+        public float y { get; set; }
+        public float z { get; set; }
+        public float w { get; set; } = 1.0f;
         public MVector3(float v1, float v2, float v3) 
         {
             x = v1;

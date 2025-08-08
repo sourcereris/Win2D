@@ -1,5 +1,6 @@
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -16,25 +17,27 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Graphics;
+using WinRT.Interop;
 
 using Win2DApp.MyMath;
-using Win2DApp.MyUtils;
+using Win2DApp.Programs;
+using Win2DApp.Utils;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Win2DApp
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainWindow : Window
     {
         private readonly InputManager _inputManager;
 
         bool isMousePressed = false;
-
+        Vec2DProjection vec2DProjection;
         Triangle trig = new();
+        MVector2 MousePos = MVector2.Zero;
+        private MVector2 screenSize = MVector2.Zero;
         public MainWindow()
         {
             InitializeComponent();
@@ -42,6 +45,11 @@ namespace Win2DApp
             // Option A: keyboard on the canvas
             _inputManager = new InputManager(AnimatedCanvas);
 
+            AnimatedCanvas.SizeChanged += (_, e) =>
+            {
+                screenSize.x = (float)e.NewSize.Width;
+                screenSize.y = (float)e.NewSize.Height;
+            };
             // Option B: keyboard on the Window’s content (e.g. if you have other XAML around it)
             // var root = (UIElement)this.Content;
             // _inputManager = new InputManager(GameCanvas, root);
@@ -50,72 +58,48 @@ namespace Win2DApp
             SubscribeInputHandler();
         }
 
-
-
         private void AnimatedCanvas_CreateResources(CanvasAnimatedControl sender, CanvasCreateResourcesEventArgs args)
         {
             args.TrackAsyncAction(LoadResourcesAsync(sender).AsAsyncAction());
+            ScreenSize.SetSize(sender.ActualWidth, sender.ActualHeight);
+            //vec2DProjection = new Vec2DProjection(); //--- 1 ---
         }
-        private async Task LoadResourcesAsync(CanvasAnimatedControl sender)
-        {
-            await Task.CompletedTask;
-        }
+
+
         private void AnimatedCanvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
-            
+
         }
 
         private void AnimatedCanvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
             var d = args.DrawingSession;
 
-            MVector2 pos = new (200, 150);
+            d.DrawText($"{screenSize.x}, {screenSize.y}", 300, 330, Colors.White);
 
-            MVector3 v = new(3, 5, 6);
-            MVector3 w = new(-6, 1, -8);
-
-            MVector3 c = MVector3.Cross(v, w);
-
-            var f = MVector3.Dot(c, w);
-
-            trig.DrawTriangle(args);
-
-            MVector2 vec1 = new MVector2(50, -80);
-            MVector2 vec2 = new MVector2(100, 50);
-
-            MVector2 offset = new MVector2(100, 100);
-            d.FillCircle(offset, 2, Colors.Red);
-
-            d.DrawLine(offset, offset + vec1, Colors.Green);
-            d.DrawLine(offset, offset + vec2, Colors.Cyan);
-
-            MVector2 vec3 = MVector2.Projection(vec1, vec2);
-            d.DrawLine(offset, offset + vec3, Colors.Yellow);
         }
 
         private void AnimatedCanvas_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             isMousePressed = true;
-            var pt = e.GetCurrentPoint(AnimatedCanvas).Position;
-            MVector2 v = new MVector2(pt.X, pt.Y);
 
-            trig.AddVertex(v);
+            //trig.AddVertex(MousePos);
+            //vec2DProjection.MousePressed(MousePos); //--- 1 ---
         }
 
         private void AnimatedCanvas_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-            if (isMousePressed)
-            {
-                var pt = e.GetCurrentPoint(AnimatedCanvas).Position;
-                MVector2 v = new MVector2(pt.X, pt.Y);
-            }
+        {   
+            var pt = e.GetCurrentPoint(AnimatedCanvas).Position;
+            MousePos.x = (float)pt.X; MousePos.y = (float)pt.Y;
+
+            //if(isMousePressed) vec2DProjection.MouseDragged(MousePos); //--- 1 ---
         }
 
         private void AnimatedCanvas_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             isMousePressed = false;
-            var pt = e.GetCurrentPoint(AnimatedCanvas).Position;
-            MVector2 v = new MVector2(pt.X, pt.Y);
+
+            //vec2DProjection.MouseReleased(); //--- 1 ---
         }
         
         void SubscribeInputHandler()
@@ -125,6 +109,10 @@ namespace Win2DApp
             _inputManager.PointerPressed += AnimatedCanvas_PointerPressed;
             _inputManager.PointerMoved += AnimatedCanvas_PointerMoved;
             _inputManager.PointerReleased += AnimatedCanvas_PointerReleased;
+        }
+        private async Task LoadResourcesAsync(CanvasAnimatedControl sender)
+        {
+            await Task.CompletedTask;
         }
     }
 }

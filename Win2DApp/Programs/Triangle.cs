@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Win2DApp.MyMath;
 
-namespace Win2DApp.MyUtils
+namespace Win2DApp.Programs
 {
     internal class Triangle
     {

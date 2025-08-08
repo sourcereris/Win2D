@@ -10,9 +10,9 @@ namespace Win2DApp.MyMath
 {
     internal class MVector2
     {
-        public static readonly MVector2 zero = new MVector2(0.0f, 0.0f);
-        public float x { get; private set; }
-        public float y { get; private set; }
+        public static MVector2 Zero => new MVector2(0.0f, 0.0f);
+        public float x { get; set; }
+        public float y { get; set; }
 
         public MVector2(float x, float y) 
         {
@@ -110,5 +110,7 @@ namespace Win2DApp.MyMath
             => new MVector2(v.x * n, v.y * n);
         public static MVector2 operator +(MVector2 v, MVector2 w)
             => new MVector2(v.x + w.x, v.y + w.y);
+        public static MVector2 operator -(MVector2 v, MVector2 w)
+            => new MVector2(v.x - w.x, v.y - w.y);
     }
 }
