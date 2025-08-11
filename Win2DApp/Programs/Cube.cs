@@ -54,7 +54,7 @@ namespace Win2DApp.Programs
         {
             var d = e.DrawingSession;
 
-            CopyVertices = Vertices.Select(v => new MVector3(v.x, v.y, v.z)).ToList();
+            //CopyVertices = Vertices.Select(v => new MVector3(v.x, v.y, v.z)).ToList();
 
             foreach (var v in CopyVertices) 
             {

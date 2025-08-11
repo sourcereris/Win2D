@@ -71,15 +71,23 @@ namespace Win2DApp
 
         private void AnimatedCanvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
-            // neet to mult the vertices with projmatrix and it should work,
-            // dont forget to copy rather than reference it
+            Cube.CopyVertices = Cube.Vertices.Select(v => new MVector3(v.x, v.y, v.z)).ToList();
+            for (int i = 0; i < Cube.CopyVertices.Count; ++i)
+            {
+                MVector3 v = Cube.CopyVertices[i];
+                Cube.CopyVertices[i] = ProjectionMatrix.Project(v , projectionMatrix);
+                Cube.CopyVertices[i].z += 500;
+            }
+
         }
 
         private void AnimatedCanvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
             var d = args.DrawingSession;
 
-            d.DrawText($"{ScreenSize.Width}, {ScreenSize.Height}", 300, 330, Colors.White);
+            d.DrawText($"{Cube.Vertices[2].x}, {Cube.Vertices[2].y}", 300, 300, Colors.White);
+            d.DrawText($"{Cube.CopyVertices[2].x}, {Cube.CopyVertices[2].y}", 300, 330, Colors.White);
+
             Cube.DrawCube(args);
         }
 
