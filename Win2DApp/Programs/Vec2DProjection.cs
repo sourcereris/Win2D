@@ -15,7 +15,7 @@ namespace Win2DApp.Programs
     internal class Vec2DProjection
     {
         public enum Handle { None, Dynamic, Static, Origin }
-
+        
         private const float HitRadius = 10f;
         private const float FillRadius = 6f;
         private const float StrokeThickness = 2f;
@@ -39,7 +39,7 @@ namespace Win2DApp.Programs
                 case Handle.Static: vStatic = pos - origin; break;
                 case Handle.Origin: origin = pos; break;
                 default: break;
-            }
+        }
         }
         public void MouseDragged(in MVector2 pos)
         {
@@ -60,7 +60,7 @@ namespace Win2DApp.Programs
 
             // projection (guard zero static)
             if (LengthSq(vStatic) > 1e-6f)
-            {
+        {
                 var proj = MVector2.Projection(vDyn, vStatic);
                 d.DrawLine(DynamicEnd, origin + proj, Colors.Green, StrokeThickness);
             }
@@ -70,9 +70,9 @@ namespace Win2DApp.Programs
             DrawHandle(d, StaticEnd, ActiveHandle == Handle.Static);
             DrawHandle(d, origin, ActiveHandle == Handle.Origin);
         }
-
+        
         private Handle HitTest(MVector2 pos) 
-        {
+        { 
             if (DistSq(DynamicEnd, pos) <= HitRadius * HitRadius) return Handle.Dynamic;
             if (DistSq(StaticEnd, pos) <= HitRadius * HitRadius) return Handle.Static;
             if (DistSq(origin, pos) <= HitRadius * HitRadius) return Handle.Origin;
@@ -87,5 +87,8 @@ namespace Win2DApp.Programs
             if (active) d.FillCircle(p, FillRadius, Colors.MintCream);
             else d.DrawCircle(p, HitRadius, Colors.Red);
         }
+        // draw two initial vectors
+        // function that checks if mouse pressing on a circle
+        // track mouse position and update the dynamic vector
     }
 }
