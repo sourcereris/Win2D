@@ -14,7 +14,6 @@ namespace Win2DApp.MyMath
         public float x { get; set; }
         public float y { get; set; }
         public float z { get; set; }
-        public float w { get; set; } = 1.0f;
         public MVector3(float v1, float v2, float v3) 
         {
             x = v1;

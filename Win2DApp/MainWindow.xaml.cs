@@ -37,7 +37,10 @@ namespace Win2DApp
         Vec2DProjection vec2DProjection;
         Triangle trig = new();
         MVector2 MousePos = MVector2.Zero;
-        private MVector2 screenSize = MVector2.Zero;
+        private readonly MVector2 screenSize = MVector2.Zero;
+
+        ProjectionMatrix projectionMatrix = new();
+        readonly Cube Cube = new();
         public MainWindow()
         {
             InitializeComponent();
@@ -49,6 +52,7 @@ namespace Win2DApp
             {
                 screenSize.x = (float)e.NewSize.Width;
                 screenSize.y = (float)e.NewSize.Height;
+                projectionMatrix.FillProjectionMatrix(screenSize.x, screenSize.y, 60f, 0.1f, 1000f);
             };
             // Option B: keyboard on the Window’s content (e.g. if you have other XAML around it)
             // var root = (UIElement)this.Content;
@@ -56,6 +60,7 @@ namespace Win2DApp
 
             _inputManager.Initialize();
             SubscribeInputHandler();
+
         }
 
         private void AnimatedCanvas_CreateResources(CanvasAnimatedControl sender, CanvasCreateResourcesEventArgs args)
@@ -76,7 +81,7 @@ namespace Win2DApp
             var d = args.DrawingSession;
 
             d.DrawText($"{screenSize.x}, {screenSize.y}", 300, 330, Colors.White);
-
+            Cube.DrawCube(args, screenSize);
         }
 
         private void AnimatedCanvas_PointerPressed(object sender, PointerRoutedEventArgs e)

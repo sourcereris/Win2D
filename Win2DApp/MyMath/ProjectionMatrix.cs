@@ -12,7 +12,7 @@ namespace Win2DApp.MyMath
 
         public ProjectionMatrix() { }
 
-        void FillProjectionMatrix(float width, float height, float angle, float zNear, float zFar)
+        public void FillProjectionMatrix(float width, float height, float angle, float zNear, float zFar)
         {
             matrix[0, 0] = height / width * (float)(1 / Math.Tan(angle / 2));
             matrix[1, 1] = (float)(1 / Math.Tan(angle / 2));
@@ -24,10 +24,18 @@ namespace Win2DApp.MyMath
         public static MVector3 Project(in MVector3 v, in ProjectionMatrix m)
         {
             MVector3 temp = MVector3.Zero;
-            temp.x *= m.matrix[0, 0];
-            temp.y *= m.matrix[1, 1];
-            temp.z  = v.z * m.matrix[2, 2] + v.w * m.matrix[3, 2];
-            temp.w  = v.z * m.matrix[2, 3];
+            temp.x  = v.x * m.matrix[0, 0] + v.y * m.matrix[0, 1] + v.z * m.matrix[0, 2] + m.matrix[0, 3];
+            temp.y  = v.x * m.matrix[1, 0] + v.y * m.matrix[1, 1] + v.z * m.matrix[1, 2] + m.matrix[1, 3];
+            temp.z  = v.x * m.matrix[2, 0] + v.y * m.matrix[2, 1] + v.z * m.matrix[2, 2] + m.matrix[2, 3];
+            float w = v.x * m.matrix[3, 0] + v.y * m.matrix[3, 1] + v.z * m.matrix[3, 2] + m.matrix[3, 3];
+
+            if (w != 0) 
+            {
+                temp.x /= w;
+                temp.y /= w;
+                temp.z /= w;
+            }
+
             return temp;
         }
     }
