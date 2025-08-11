@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Win2DApp.MyMath;
+using Win2DApp.Utils;
 
 namespace Win2DApp.Programs
 {
@@ -49,7 +50,7 @@ namespace Win2DApp.Programs
             Triangles[10] = (7, 6, 5);
             Triangles[11] = (7, 5, 4);
         }
-        public void DrawCube(CanvasAnimatedDrawEventArgs e, MVector2 screen) 
+        public void DrawCube(CanvasAnimatedDrawEventArgs e) 
         {
             var d = e.DrawingSession;
 
@@ -61,8 +62,8 @@ namespace Win2DApp.Programs
                 v.y += 1f;
                 v.z += 1f;
 
-                v.x *= (screen.x / 2);
-                v.y *= (screen.y / 2);
+                v.x *= (ScreenSize.Width / 2);
+                v.y *= (ScreenSize.Height / 2);
             }
 
             for(int i = 0; i < Triangles.Length; ++i) 

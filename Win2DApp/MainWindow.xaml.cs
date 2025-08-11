@@ -37,9 +37,8 @@ namespace Win2DApp
         Vec2DProjection vec2DProjection;
         Triangle trig = new();
         MVector2 MousePos = MVector2.Zero;
-        private readonly MVector2 screenSize = MVector2.Zero;
 
-        ProjectionMatrix projectionMatrix = new();
+        static ProjectionMatrix projectionMatrix = new();
         readonly Cube Cube = new();
         public MainWindow()
         {
@@ -50,9 +49,8 @@ namespace Win2DApp
 
             AnimatedCanvas.SizeChanged += (_, e) =>
             {
-                screenSize.x = (float)e.NewSize.Width;
-                screenSize.y = (float)e.NewSize.Height;
-                projectionMatrix.FillProjectionMatrix(screenSize.x, screenSize.y, 60f, 0.1f, 1000f);
+                ScreenSize.SetSize(e.NewSize.Width, e.NewSize.Height);
+                projectionMatrix.FillProjectionMatrix(60f, 0.1f, 1000f);
             };
             // Option B: keyboard on the Window’s content (e.g. if you have other XAML around it)
             // var root = (UIElement)this.Content;
@@ -73,15 +71,16 @@ namespace Win2DApp
 
         private void AnimatedCanvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
-
+            // neet to mult the vertices with projmatrix and it should work,
+            // dont forget to copy rather than reference it
         }
 
         private void AnimatedCanvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
             var d = args.DrawingSession;
 
-            d.DrawText($"{screenSize.x}, {screenSize.y}", 300, 330, Colors.White);
-            Cube.DrawCube(args, screenSize);
+            d.DrawText($"{ScreenSize.Width}, {ScreenSize.Height}", 300, 330, Colors.White);
+            Cube.DrawCube(args);
         }
 
         private void AnimatedCanvas_PointerPressed(object sender, PointerRoutedEventArgs e)
