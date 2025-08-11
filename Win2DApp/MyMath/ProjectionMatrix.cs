@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Win2DApp.Utils;
 
 namespace Win2DApp.MyMath
 {
@@ -12,9 +13,9 @@ namespace Win2DApp.MyMath
 
         public ProjectionMatrix() { }
 
-        public void FillProjectionMatrix(float width, float height, float angle, float zNear, float zFar)
+        public void FillProjectionMatrix(float angle, float zNear, float zFar)
         {
-            matrix[0, 0] = height / width * (float)(1 / Math.Tan(angle / 2));
+            matrix[0, 0] = ScreenSize.Height / ScreenSize.Width * (float)(1 / Math.Tan(angle / 2));
             matrix[1, 1] = (float)(1 / Math.Tan(angle / 2));
             matrix[2, 2] = zFar / (zFar - zNear);
             matrix[2, 3] = 1f;
