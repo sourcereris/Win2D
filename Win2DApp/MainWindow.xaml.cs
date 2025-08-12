@@ -75,8 +75,8 @@ namespace Win2DApp
             for (int i = 0; i < Cube.CopyVertices.Count; ++i)
             {
                 MVector3 v = Cube.CopyVertices[i];
+                Cube.CopyVertices[i].z += 2;
                 Cube.CopyVertices[i] = ProjectionMatrix.Project(v , projectionMatrix);
-                Cube.CopyVertices[i].z += 500;
             }
 
         }

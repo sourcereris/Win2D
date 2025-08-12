@@ -18,8 +18,8 @@ namespace Win2DApp.MyMath
             matrix[0, 0] = ScreenSize.Height / ScreenSize.Width * (float)(1 / Math.Tan(angle / 2));
             matrix[1, 1] = (float)(1 / Math.Tan(angle / 2));
             matrix[2, 2] = zFar / (zFar - zNear);
-            matrix[2, 3] = 1f;
-            matrix[3, 2] = -(zFar * zNear) / (zFar - zNear);
+            matrix[2, 3] = -(zFar * zNear) / (zFar - zNear);
+            matrix[3, 2] = 1f;
         }
 
         public static MVector3 Project(in MVector3 v, in ProjectionMatrix m)
