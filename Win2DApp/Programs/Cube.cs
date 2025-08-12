@@ -37,18 +37,18 @@ namespace Win2DApp.Programs
         }
         void FillTriangles()
         {
-            Triangles[0] = (0, 1, 2);
-            Triangles[1] = (0, 2, 3);
-            Triangles[2] = (1, 5, 6);
-            Triangles[3] = (1, 6, 2);
-            Triangles[4] = (0, 4, 5);
-            Triangles[5] = (0, 5, 1);
-            Triangles[6] = (3, 7, 4);
-            Triangles[7] = (3, 4, 0);
-            Triangles[8] = (3, 6, 7);
-            Triangles[9] = (3, 2, 6);
-            Triangles[10] = (7, 6, 5);
-            Triangles[11] = (7, 5, 4);
+            Triangles[0] = (0, 2, 1);
+            Triangles[1] = (0, 3, 2);
+            Triangles[2] = (1, 6, 5);
+            Triangles[3] = (1, 2, 6);
+            Triangles[4] = (4, 1, 5);
+            Triangles[5] = (4, 0, 1);
+            Triangles[6] = (3, 4, 0);
+            Triangles[7] = (3, 7, 4);
+            Triangles[8] = (3, 6, 2);
+            Triangles[9] = (3, 7, 6);
+            Triangles[10] = (7, 5, 6);
+            Triangles[11] = (7, 4, 5);
         }
         public void DrawCube(CanvasAnimatedDrawEventArgs e) 
         {
@@ -58,12 +58,8 @@ namespace Win2DApp.Programs
 
             foreach (var v in CopyVertices) 
             {
-                v.x += 1f;
-                v.y += 1f;
-                v.z += 1f;
-
-                v.x *= (ScreenSize.Width / 2);
-                v.y *= (ScreenSize.Height / 2);
+                v.x = (v.x + 1f) * 0.5f * ScreenSize.Width;
+                v.y = (1f - v.y) * 0.5f * ScreenSize.Height;
             }
 
             for(int i = 0; i < Triangles.Length; ++i) 
