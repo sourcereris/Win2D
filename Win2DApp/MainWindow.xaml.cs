@@ -40,6 +40,7 @@ namespace Win2DApp
 
         static ProjectionMatrix projectionMatrix = new();
         readonly Cube Cube = new();
+        float angle = 0;
         public MainWindow()
         {
             InitializeComponent();
@@ -50,7 +51,8 @@ namespace Win2DApp
             AnimatedCanvas.SizeChanged += (_, e) =>
             {
                 ScreenSize.SetSize(e.NewSize.Width, e.NewSize.Height);
-                projectionMatrix.FillProjectionMatrix(60f, 0.1f, 1000f);
+                float angleRad = 60f * ((float)Math.PI / 180f);
+                projectionMatrix.FillProjectionMatrix(angleRad, 0.1f, 1000f);
             };
             // Option B: keyboard on the Window’s content (e.g. if you have other XAML around it)
             // var root = (UIElement)this.Content;
@@ -71,12 +73,14 @@ namespace Win2DApp
 
         private void AnimatedCanvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
+            ++angle;
             Cube.CopyVertices = Cube.Vertices.Select(v => new MVector3(v.x, v.y, v.z)).ToList();
             for (int i = 0; i < Cube.CopyVertices.Count; ++i)
             {
                 MVector3 v = Cube.CopyVertices[i];
-                Cube.CopyVertices[i].z += 2;
-                Cube.CopyVertices[i] = ProjectionMatrix.Project(v , projectionMatrix);
+                //v = ProjectionMatrix.RotateY(v, angle);
+                v.z += 5;
+                Cube.CopyVertices[i] = ProjectionMatrix.Project(v, projectionMatrix);
             }
 
         }

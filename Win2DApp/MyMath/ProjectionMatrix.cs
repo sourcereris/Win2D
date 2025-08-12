@@ -10,8 +10,10 @@ namespace Win2DApp.MyMath
     internal class ProjectionMatrix
     {
         private float[,] matrix = new float[4, 4];
-
-        public ProjectionMatrix() { }
+        private float[,] RotateXMat = new float[4, 4];
+        public ProjectionMatrix() 
+        {
+        }
 
         public void FillProjectionMatrix(float angle, float zNear, float zFar)
         {
@@ -38,6 +40,25 @@ namespace Win2DApp.MyMath
             }
 
             return temp;
+        }
+
+        public static MVector3 RotateX(in MVector3 v, float angle) 
+        {
+            MVector3 w = new(0, 0, 0);
+            angle *= MathF.PI / 180f; 
+            w.x = v.x;
+            w.y = v.y * MathF.Cos(angle) + v.z * MathF.Sin(angle);
+            w.z = v.y * -MathF.Sin(angle) + v.z * MathF.Cos(angle);
+            return w;
+        }
+        public static MVector3 RotateY(in MVector3 v, float angle)
+        {
+            MVector3 w = new(0, 0, 0);
+            angle *= MathF.PI / 180f;
+            w.x = v.x * MathF.Cos(angle) + v.z * -MathF.Sin(angle);
+            w.y = v.y;
+            w.z = v.x * MathF.Sin(angle) + v.z * MathF.Cos(angle);
+            return w;
         }
     }
 }
