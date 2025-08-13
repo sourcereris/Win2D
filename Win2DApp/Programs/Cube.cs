@@ -77,7 +77,6 @@ namespace Win2DApp.Programs
                     CopyVertices[Triangles[i].Item3].y);
 
 
-
                 d.DrawLine(v1, v2, Colors.White); 
                 d.DrawLine(v2, v3, Colors.White);
                 d.DrawLine(v3, v1, Colors.White);
